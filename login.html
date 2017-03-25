@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+    <link rel="shortcut icon" href="../css/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="login.css">
+  </head>
+  <body>
+    <div class="loginRegisterPanel">
+        <div class="login" id="loginPanel">
+            <h3 class="text-white" style="color:#b20000; margin:20px; font-weight:700">LOGIN</h3>
+            <p class="text-white" style="color:white; margin:20px">
+              <label>Email Address</label>
+             <input type="text" class="form-control" id="username">
+            </p>
+            
+            <p class="text-white" style="color:white; margin:20px">
+              <label>Password</label>
+             <input type="password" class="form-control" id="password">
+            </p>
+            
+            <input type="button" id="loginButton" class="buttonPrimary" style="margin:20px" value="Login" />
+            <input type="button" id="registerButton" class="buttonPrimary" style="margin:20px" value="Register" />
+        </div>
+   </div>
+    <!-- PUT YOUR HTML ABOVE THIS POINT -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    
+   <script type="text/javascript" src="https://www.google.com/jsapi?key=AIzaSyCJ9faDR8ah7Liqz3TdqCdhk-VQXXM0Vck&fo">
+    <script type="text/javascript"charset="utf-8">google.load("maps","2.x"); google.load("jquery","1.3.1");</script>
+
+<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
+<script>
+    var first = 0;
+
+    var config = {
+        apiKey: "AIzaSyCwZM-K71civKMrJlyvC7pxYpZwIiN0w1Y",
+        authDomain: "web-lab4.firebaseapp.com",
+        databaseURL: "https://web-lab4.firebaseio.com",
+        storageBucket: "web-lab4.appspot.com",
+        messagingSenderId: "777671855592"
+    };
+    
+    firebase.initializeApp(config);
+    const auth = firebase.auth();
+    
+    if (first == 0){
+        auth.signOut();
+        console.log("no one is logged on");
+        first = 1;
+    }    
+
+  $("#loginButton").click(function(){
+    
+    var email = $("#username").val();  
+    var password = $("#password").val();
+
+    auth.signInWithEmailAndPassword(email, password);
+        
+
+            //window.location.href = "https://user.tjhsst.edu/2018ryeliset/lab4/database.html";
+});
+
+  $("#registerButton").click(function(){
+    
+    var email = $("#username").val();  
+    var password = $("#password").val();
+    const promise = auth.createUserWithEmailAndPassword(email, password);
+    promise.catch(e => console.log(e.message));
+      
+});
+
+auth.onAuthStateChanged(firebaseUser => {
+      if (firebaseUser){
+          console.log(firebaseUser);
+          window.location.href = "https://user.tjhsst.edu/2018ryeliset/lab4/database.html";
+      }
+      else{
+          console.log("no one is logged on");
+      }
+  });
+
+</script>
+   
+  </body>
+</html>
